@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicionário e Corretor Ortográfico</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <main class="container pt-4 pb-4">
+
+        <header>
+
+            <h1>Grupo 2</h1>
+            <h2>Arquivos e árvores digitais</h2>
+            <h3>Dicionário e Corretor de palavras e textos</h3>
+
+            <h5>Integrantes</h5>
+            <ul>
+                <li>Guilherme de Lima Lopes</li>
+                <li>Lucas Tedim Andrade</li>
+                <li>Jhonata Santana Louzada de Aguiar</li>
+                <li>André de Brito Lins</li>
+                <li>Gabriela Monaro Rodrigues</li>
+                <li>Victor Finotti Passaro</li>
+                <li>Vinicius Miranda Santos</li>
+            </ul>
+
+        </header>
+
+        <section class="row mt-5">
+
+            <nav class="col-md-6 mb-3">
+
+                <div class="card p-3">
+
+                    <h3>Dicionário</h3>
+
+                    <form id="dicionario">
+                        <div class="input-group mb-3">
+                            <input type="text" id="palavra" class="form-control" placeholder="Digite a palavra aqui"
+                                aria-label="Digite a palavra aqui">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Pesquisar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+            </nav>
+
+            <nav class="col-md-6">
+
+                <div class="card p-3">
+
+                    <h3>Corretor</h3>
+
+                    <form id="corretor">
+                        <div class="form-group">
+                            <textarea class="form-control" id="texto" rows="3"
+                                placeholder="Insira o texto aqui"></textarea>
+                        </div>
+
+                        <button class="btn btn-primary float-right" type="submit">Corrigir</button>
+                    </form>
+
+                </div>
+
+            </nav>
+
+        </section>
+
+    </main>
+
+    <script src="./js/jquery-3.3.1.slim.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/consultaPalavra.js"></script>
+    <script src="./js/corretor.js"></script>
+    <script src="./js/dicionario.js"></script>
+
+</body>
+
+</html>
