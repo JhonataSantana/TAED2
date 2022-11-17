@@ -5,36 +5,36 @@ const consultaPalavra = (evento) => {
 
     const palavra = document.getElementById("palavra").value.toLowerCase();
     const resultado = document.getElementById("resultadoDicionario");
-    let primeiro = resultado.firstElementChild;
-    while(primeiro){
-        primeiro.remove();
-        primeiro = resultado.firstElementChild;
+    let filho = resultado.firstElementChild;
+    while (filho) {
+        filho.remove();
+        filho = resultado.firstElementChild;
     }
+
+    const documentFragment = document.createDocumentFragment();
+    const title = document.createElement("h5");
 
     const formData = new FormData();
     formData.append('palavra', palavra);
-    
+
     const ajax = new XMLHttpRequest();
-    
-    ajax.onreadystatechange = function() {
+
+    ajax.onreadystatechange = function () {
 
         if (this.readyState == 4 && this.status == 200) {
-            
+
             const data = JSON.parse(ajax.responseText);
-            console.log(data);
 
-            if(!data.exist){
+            if (!data.exist) {
 
-                const documentFragment = document.createDocumentFragment();
-                const title = document.createElement("h5");
                 title.textContent = "Você quis dizer"
-    
+
                 documentFragment.append(title);
 
                 const lista = document.createElement("ul");
                 lista.classList.add('list-group');
-    
-                for(const sugestao of data.response){
+
+                for (const sugestao of data.response) {
                     const item = document.createElement('li');
                     item.classList.add('list-group-item', 'list-group-item-action');
                     item.textContent = sugestao;
@@ -49,16 +49,31 @@ const consultaPalavra = (evento) => {
 
                 resultado.append(documentFragment);
 
-            }else{
+            } else {
 
-                const documentFragment = document.createDocumentFragment();
-                const title = document.createElement("h5");
                 title.textContent = "Significado"
-    
+
                 documentFragment.append(title);
 
                 const significado = document.createElement("p");
-                significado.textContent = "Lorem Ipsum..."
+                fetch('https://significado.herokuapp.com/v2/significados/'+palavra).then(function (response) {
+                    var contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        response.json().then(function (json) {
+                            let content = '';
+                            for(const def of json){
+                                content += def.partOfSpeech + '</br>';
+                                content += def.etymology + '</br>';
+                                for(const mean of def.meanings){
+                                    content += mean + '</br>';
+                                }
+                            }
+                            significado.innerHTML = content;
+                        });
+                    } else {
+                        console.log("Oops, we haven't got JSON!");
+                    }
+                });
 
                 documentFragment.append(significado);
 
