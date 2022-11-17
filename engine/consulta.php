@@ -2,6 +2,12 @@
 
 header("Content-type: text/html; charset=utf-8");
 
+if(!isset($_POST['palavra']) && !isset($_POST['palavra'])){
+    exit();
+}
+
+$palavra = $_POST['palavra'];
+
 function consultaPalavra($palavra_procurada) {
 
     $dicionario = unserialize(file_get_contents('./../data/dicionario_serializado.dat'));
@@ -10,13 +16,13 @@ function consultaPalavra($palavra_procurada) {
 
     foreach($dicionario as $palavra_do_dicionario => $peso) {
 
-            if($palavra_procurada == $palavra_do_dicionario) return $palavra_procurada;
+            if($palavra_procurada == $palavra_do_dicionario) return array($palavra_procurada);
 
             $distancia = levenshtein($palavra_procurada,$palavra_do_dicionario);
             $dicionario[$palavra_do_dicionario] = $distancia;
 
             if($distancia < $menorDistancia || $menorDistancia == -1) {
-                    $menorDistancia = $distancia;
+                $menorDistancia = $distancia;
             }
     }
 
@@ -41,4 +47,26 @@ function consultaPalavra($palavra_procurada) {
 
 }
 
-echo htmlspecialchars(consultaPalavra("mágua")[0]);
+function array2JSON($sugestoes, $palavra_procurada){
+    $json = '{"response": [';
+    $primeiro = 1;
+    foreach($sugestoes as $palavra){
+        if($primeiro < 1){
+            $json .= ',';
+        }
+        $json .= '"'.$palavra.'"';
+        $primeiro--;
+    }
+    $json .= '],';
+    $json .= '"exist": ';
+    if(sizeof($sugestoes) == 1 && $sugestoes[0] == $palavra_procurada){
+        $json .= 'true';
+    }else{
+        $json .= 'false';
+    }
+    $json .= '}';
+
+    return $json;
+}
+
+echo array2JSON(consultaPalavra($palavra), $palavra);
